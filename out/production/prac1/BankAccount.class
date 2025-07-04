@@ -1,0 +1,104 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
+import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.Random;
+
+public class BankAccount {
+    private final String ownerName;
+    private int balance;
+    private final LocalDateTime openDate;
+    private boolean isBlocked;
+    private final String accountNumber;
+
+    public BankAccount(String ownerName) {
+        this.ownerName = ownerName;
+        this.balance = 0;
+        this.openDate = LocalDateTime.now();
+        this.isBlocked = false;
+        this.accountNumber = this.generateAccountNumber();
+    }
+
+    private String generateAccountNumber() {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+
+        for(int i = 0; i < 8; ++i) {
+            sb.append(random.nextInt(10));
+        }
+
+        return sb.toString();
+    }
+
+    public boolean deposit(int amount) {
+        if (!this.isBlocked && amount > 0) {
+            this.balance += amount;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean withdraw(int amount) {
+        if (!this.isBlocked && amount > 0 && amount <= this.balance) {
+            this.balance -= amount;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean transfer(BankAccount otherAccount, int amount) {
+        if (!this.isBlocked && !otherAccount.isBlocked && amount > 0 && amount <= this.balance) {
+            return this.withdraw(amount) && otherAccount.deposit(amount);
+        } else {
+            return false;
+        }
+    }
+
+    public String getOwnerName() {
+        return this.ownerName;
+    }
+
+    public int getBalance() {
+        return this.balance;
+    }
+
+    public LocalDateTime getOpenDate() {
+        return this.openDate;
+    }
+
+    public boolean isBlocked() {
+        return this.isBlocked;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.isBlocked = blocked;
+    }
+
+    public String getAccountNumber() {
+        return this.accountNumber;
+    }
+
+    public String toString() {
+        return String.format("Счет %s (владелец: %s, баланс: %d, открыт: %s, статус: %s)", this.accountNumber, this.ownerName, this.balance, this.openDate.toString(), this.isBlocked ? "заблокирован" : "активен");
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        } else if (o != null && this.getClass() == o.getClass()) {
+            BankAccount that = (BankAccount)o;
+            return this.accountNumber.equals(that.accountNumber);
+        } else {
+            return false;
+        }
+    }
+
+    public int hashCode() {
+        return Objects.hash(new Object[]{this.accountNumber});
+    }
+}
