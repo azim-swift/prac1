@@ -1,0 +1,38 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by FernFlower decompiler)
+//
+
+import java.io.PrintStream;
+import java.time.format.DateTimeFormatter;
+
+public class Main {
+    public static void main(String[] args) {
+        BankAccount account1 = new BankAccount("Иван Иванов");
+        BankAccount account2 = new BankAccount("Петр Петров");
+        account1.deposit(5000);
+        account1.transfer(account2, 2000);
+        account2.withdraw(500);
+        account1.setBlocked(true);
+        System.out.println("=== Состояние счетов ===");
+        System.out.println(account1);
+        System.out.println(account2);
+        System.out.println("\n=== Детали счета 1 ===");
+        PrintStream var10000 = System.out;
+        String var10001 = account1.getOwnerName();
+        var10000.println("Владелец: " + var10001);
+        var10000 = System.out;
+        int var7 = account1.getBalance();
+        var10000.println("Баланс: " + var7);
+        var10000 = System.out;
+        String var8 = account1.getAccountNumber();
+        var10000.println("Номер счета: " + var8);
+        var10000 = System.out;
+        var8 = account1.getOpenDate().format(DateTimeFormatter.ISO_LOCAL_DATE);
+        var10000.println("Дата открытия: " + var8);
+        System.out.println("Статус: " + (account1.isBlocked() ? "заблокирован" : "активен"));
+        var10000 = System.out;
+        boolean var10 = account1.equals(account2);
+        var10000.println("\nСчета одинаковые? " + var10);
+    }
+}
